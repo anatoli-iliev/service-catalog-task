@@ -112,13 +112,15 @@ curl -s http://localhost:8080/api/v1/applications/app-1 | jq .
 echo '{"releaseId":"rel-2.1.0","applicationId":"app-1","version":"2.1.0","ociReference":"registry.io/app:2.1.0","releaseDate":"2026-01-15T10:00:00Z"}' | docker exec -i catalog-kafka /opt/kafka/bin/kafka-console-producer.sh --bootstrap-server localhost:19092 --topic catalog.releases
 echo '{"releaseId":"rel-1.10.0","applicationId":"app-1","version":"1.10.0","ociReference":"registry.io/app:1.10.0","releaseDate":"2026-01-15T10:00:00Z"}' | docker exec -i catalog-kafka /opt/kafka/bin/kafka-console-producer.sh --bootstrap-server localhost:19092 --topic catalog.releases
 echo '{"releaseId":"rel-1.9.0","applicationId":"app-1","version":"1.9.0","ociReference":"registry.io/app:1.9.0","releaseDate":"2026-01-15T10:00:00Z"}' | docker exec -i catalog-kafka /opt/kafka/bin/kafka-console-producer.sh --bootstrap-server localhost:19092 --topic catalog.releases
+echo '{"releaseId":"rel-1.9.1-beta.1","applicationId":"app-1","version":"1.9.1-beta.1","ociReference":"registry.io/app:1.9.0","releaseDate":"2026-01-15T10:00:00Z"}' | docker exec -i catalog-kafka /opt/kafka/bin/kafka-console-producer.sh --bootstrap-server localhost:19092 --topic catalog.releases
 
-# 6. Verify SemVer sort order: 2.1.0 > 1.10.0 > 1.9.0 > 1.0.0
+# 6. Verify SemVer sort order: 2.1.0 > 1.10.0 > 1.9.1-beta.1 > 1.9.0 > 1.0.0
 curl -s "http://localhost:8080/api/v1/applications/app-1/releases" | jq '.content[].version'
 
 # Expected:
 "2.1.0"
 "1.10.0"
+"1.9.1-beta.1"
 "1.9.0"
 "1.0.0"
 ```
